@@ -1,0 +1,16 @@
+D:\Software\My_Software\AnimalChess\AnimalChess\bin\Debug\AnimalChess.exe.config
+D:\Software\My_Software\AnimalChess\AnimalChess\bin\Debug\AnimalChess.exe
+D:\Software\My_Software\AnimalChess\AnimalChess\bin\Debug\AnimalChess.pdb
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.csprojAssemblyReference.cache
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\MainWindow.g.cs
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\App.g.cs
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess_Content.g.cs
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess_MarkupCompile.cache
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess_MarkupCompile.lref
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\MainWindow.baml
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.g.resources
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.Properties.Resources.resources
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.csproj.GenerateResource.cache
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.csproj.CoreCompileInputs.cache
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.exe
+D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.pdb
