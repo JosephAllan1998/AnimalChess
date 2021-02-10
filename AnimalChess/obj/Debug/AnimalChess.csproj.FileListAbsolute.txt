@@ -14,3 +14,12 @@ D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.csproj.Gen
 D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.csproj.CoreCompileInputs.cache
 D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.exe
 D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.pdb
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\bin\Debug\MaterialDesignColors.dll
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\bin\Debug\MaterialDesignThemes.Wpf.dll
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\bin\Debug\MaterialDesignColors.pdb
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\bin\Debug\MaterialDesignThemes.Wpf.pdb
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\bin\Debug\MaterialDesignThemes.Wpf.xml
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\obj\Debug\App.baml
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.csproj.CopyComplete
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\obj\Debug\UIPages\BoardPage.g.cs
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\obj\Debug\UIPages\BoardPage.baml

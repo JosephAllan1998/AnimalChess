@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\obj\Debug\
 AnimalChess
 none
 false
 DEBUG;TRACE
-D:\Software\My_Software\AnimalChess\AnimalChess\App.xaml
-11151548125
+D:\SoftWare\My_Software\AnimalChess\AnimalChess\App.xaml
+21246987540
 8-1310553070
-61522651010
-13152784993
-MainWindow.xaml;
+8-1716050672
+15-711298438
+MainWindow.xaml;UIPages\BoardPage.xaml;
 
 False
 

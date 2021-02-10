@@ -3,9 +3,58 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:AnimalChess" mc:Ignorable="d"
-        Title="Cờ thú" Height="450" Width="800">
+        Title="Cờ thú" Height="620" Width="480" WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow" WindowState="Normal" Loaded="Window_Loaded">
     <Grid>
-        <Image Source="/Resources/Images/cat.png" />
+        <Grid.Background>
+            <ImageBrush ImageSource="/Resources/Images/background.jpg" x:Name="bgGrid"
+                        TileMode="Tile" Stretch="Fill" Opacity="0.3"/>
+        </Grid.Background>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Menu IsMainMenu="True" Height="20">
+                <MenuItem Header="Game" Height="20" Style="{StaticResource MenuItemHeader}" Margin="3 0 0 0">
+                    <MenuItem Header="New game" InputGestureText="Ctrl+N" Style="{StaticResource MenuItemSub}"
+                              Icon="{materialDesign:PackIcon Kind=NewBox}" Click="NewGame_Click"/>
+
+                    <Separator Background="Black"/>
+
+                    <MenuItem Header="Reload" InputGestureText="Ctrl+L" Style="{StaticResource MenuItemSub}"
+                              Icon="{materialDesign:PackIcon Kind=Reload}" ToolTip="Reload last saved" Click="ReloadGame_Click"/>
+                    
+                    <MenuItem Header="Restart" InputGestureText="Ctrl+R" Style="{StaticResource MenuItemSub}"
+                              Icon="{materialDesign:PackIcon Kind=Power}" ToolTip="Reset game" Click="ResetGame_Click"/>
+
+                    <MenuItem Header="Save" InputGestureText="Ctrl+S" Style="{StaticResource MenuItemSub}"
+                              Icon="{materialDesign:PackIcon Kind=ContentSave}" Click="SaveGame_Click"/>
+
+                    <Separator Background="Black"/>
+
+                    <MenuItem Header="Exit" InputGestureText="Alt+F4" Style="{StaticResource MenuItemSub}"
+                              Icon="{materialDesign:PackIcon Kind=ExitToApp}" Click="CloseGame_Click"/>
+                </MenuItem>
+
+                <MenuItem Header="Setting" Height="20" Style="{StaticResource MenuItemHeader}" Margin="0 0">
+                    <!--<MenuItem Header="Reload" InputGestureText="Ctrl+L" Style="{StaticResource MenuItemSub}"
+                              Icon="{materialDesign:PackIcon Kind=Reload}" ToolTip="Reload last saved" Click="ReloadGame_Click"/>
+
+                    <Separator Background="Black"/>-->
+
+                </MenuItem>
+
+                <MenuItem Header="Help" Height="20" Style="{StaticResource MenuItemHeader}" Click="Help_Click"/>
+            </Menu>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Frame Name="frameLoad" NavigationUIVisibility="Hidden"/>
+        </Grid>
     </Grid>
 </Window>
