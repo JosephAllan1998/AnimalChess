@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ENumClass.cs" />
     <Compile Include="UIPages\BoardPage.xaml.cs">
       <DependentUpon>BoardPage.xaml</DependentUpon>
     </Compile>
@@ -116,19 +117,22 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Resources\Audio\cat.wav" />
-    <Content Include="Resources\Audio\dog.wav" />
-    <Content Include="Resources\Audio\elephant.wav" />
-    <Content Include="Resources\Audio\leopard.wav" />
-    <Content Include="Resources\Audio\lion.wav" />
-    <Content Include="Resources\Audio\rat.wav" />
-    <Content Include="Resources\Audio\tiger.wav" />
-    <Content Include="Resources\Audio\wolf.wav" />
+    <Resource Include="Resources\Images\Controls\down_blue.png" />
+    <Resource Include="Resources\Images\Controls\down_gradient.png" />
+    <Resource Include="Resources\Images\Controls\left_blue.png" />
+    <Resource Include="Resources\Images\Controls\left_gradient.png" />
+    <Resource Include="Resources\Images\Controls\right_blue.png" />
+    <Resource Include="Resources\Images\Controls\right_gradient.png" />
+    <Resource Include="Resources\Images\Controls\up_blue.png" />
+    <Resource Include="Resources\Images\Controls\up_gradient.png" />
+    <Resource Include="Resources\Images\Controls\close.png" />
+    <Resource Include="Resources\Images\Controls\maximize.png" />
+    <Resource Include="Resources\Images\Controls\minimize.png" />
+    <Resource Include="Resources\Images\Controls\restore.png" />
     <Resource Include="Resources\Images\Others\jungle.png" />
     <Resource Include="Resources\Images\background.jpg" />
     <Resource Include="Resources\Images\Others\cave.png" />
     <Resource Include="Resources\Images\Others\trap.png" />
-    <Resource Include="Resources\Images\Others\grass.png" />
     <Resource Include="Resources\Images\Others\jungle.ico" />
     <Resource Include="Resources\Images\Others\water.png" />
     <Resource Include="Resources\Images\Animals\rat.png" />

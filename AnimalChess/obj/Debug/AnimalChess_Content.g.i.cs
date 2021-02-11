@@ -8,13 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audio/cat.wav")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audio/dog.wav")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audio/elephant.wav")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audio/leopard.wav")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audio/lion.wav")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audio/rat.wav")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audio/tiger.wav")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audio/wolf.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audios/cat.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audios/dog.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audios/elephant.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audios/leopard.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audios/lion.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audios/rat.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audios/tiger.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/audios/wolf.wav")]
 
 

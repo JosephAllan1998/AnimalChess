@@ -7,17 +7,45 @@ using System.Threading.Tasks;
 
 namespace AnimalChess.Models
 {
-    public enum Level
+    public class Position : INotifyPropertyChanged
     {
-        Elephant = 8, Lion = 7,Tiger = 6,
-        Leopard = 5, Dog = 4, Wolf = 3,
-        Cat = 2, Rat = 1, Dangerous = 0
+        private int _column, _row;
+        public int Column
+        {
+            get => _column;
+            set
+            {
+                _column = value;
+                NotifyPropertyChanged("Column");
+            }
+        }
+
+        public int Row
+        {
+            get => _row;
+            set
+            {
+                _row = value;
+                NotifyPropertyChanged("Row");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void NotifyPropertyChanged(string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     public class Animal : INotifyPropertyChanged//, IDisposable
     {
         private Level _cur_lv, _temp_lv;
-        private double _width, _height;
         private string _name, _imageName, _animalSound;
+        private Position _position;
+        private Player _player;
+        private Swim _swim;
         public Level Cur_LV
         {
             get => _cur_lv;
@@ -36,22 +64,22 @@ namespace AnimalChess.Models
                 NotifyPropertyChanged("Temp_LV");
             }
         }
-        public double Width
+        public Player Player
         {
-            get => _width;
+            get => _player;
             set
             {
-                _width = value;
-                NotifyPropertyChanged("Width");
+                _player = value;
+                NotifyPropertyChanged("Player");
             }
         }
-        public double Height
+        public Swim Swim
         {
-            get => _height;
+            get => _swim;
             set
             {
-                _height = value;
-                NotifyPropertyChanged("Height");
+                _swim = value;
+                NotifyPropertyChanged("Swim");
             }
         }
         public string Name
@@ -81,15 +109,25 @@ namespace AnimalChess.Models
                 NotifyPropertyChanged("AnimalSound");
             }
         }
+        public Position Position
+        {
+            get => _position;
+            set
+            {
+                _position = value;
+                NotifyPropertyChanged("Position");
+            }
+        }
         public Animal()
         {
             //Temp_LV = Level.Dangerous;
             Cur_LV = Level.Dangerous;
-            Width = 100;
-            Height = 100;
             Name = "Animal";
             ImageName = "*.png";
             AnimalSound = "*.wav";
+            Position = new Position { Column = -1, Row = -1 };
+            Player = Player.Blue;
+            Swim = Swim.NotAvailable;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -108,6 +146,7 @@ namespace AnimalChess.Models
         public Elephant()
         {
             Cur_LV = Level.Elephant;
+            Temp_LV = Level.Elephant;
             Name = "Elephant";
             ImageName = "elephant.png";
             AnimalSound = "elephant.wav";
@@ -118,9 +157,11 @@ namespace AnimalChess.Models
         public Lion()
         {
             Cur_LV = Level.Lion;
+            Temp_LV = Level.Lion;
             Name = "Lion";
             ImageName = "lion.png";
             AnimalSound = "lion.wav";
+            Swim = Swim.Jump;
         }
     }
     public class Tiger : Animal
@@ -128,9 +169,11 @@ namespace AnimalChess.Models
         public Tiger()
         {
             Cur_LV = Level.Tiger;
+            Temp_LV = Level.Tiger;
             Name = "Tiger";
             ImageName = "tiger.png";
             AnimalSound = "tiger.wav";
+            Swim = Swim.Jump;
         }
     }
     public class Leopard : Animal
@@ -138,6 +181,7 @@ namespace AnimalChess.Models
         public Leopard()
         {
             Cur_LV = Level.Leopard;
+            Temp_LV = Level.Leopard;
             Name = "Leopard";
             ImageName = "leopard.png";
             AnimalSound = "leopard.wav";
@@ -148,9 +192,11 @@ namespace AnimalChess.Models
         public Dog()
         {
             Cur_LV = Level.Dog;
+            Temp_LV = Level.Dog;
             Name = "Dog";
             ImageName = "dog.png";
             AnimalSound = "dog.wav";
+            Swim = Swim.Available;
         }
     }
     public class Wolf : Animal
@@ -158,6 +204,7 @@ namespace AnimalChess.Models
         public Wolf()
         {
             Cur_LV = Level.Wolf;
+            Temp_LV = Level.Wolf;
             Name = "Wolf";
             ImageName = "wolf.png";
             AnimalSound = "wolf.wav";
@@ -168,6 +215,7 @@ namespace AnimalChess.Models
         public Cat()
         {
             Cur_LV = Level.Cat;
+            Temp_LV = Level.Cat;
             Name = "Cat";
             ImageName = "cat.png";
             AnimalSound = "cat.wav";
@@ -178,9 +226,11 @@ namespace AnimalChess.Models
         public Rat()
         {
             Cur_LV = Level.Rat;
+            Temp_LV = Level.Rat;
             Name = "Rat";
             ImageName = "rat.png";
             AnimalSound = "rat.wav";
+            Swim = Swim.Available;
         }
     }
     #endregion

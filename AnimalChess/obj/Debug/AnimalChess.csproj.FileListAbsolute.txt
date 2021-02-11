@@ -4,7 +4,6 @@ D:\Software\My_Software\AnimalChess\AnimalChess\bin\Debug\AnimalChess.pdb
 D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess.csprojAssemblyReference.cache
 D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\MainWindow.g.cs
 D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\App.g.cs
-D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess_Content.g.cs
 D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess_MarkupCompile.cache
 D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\AnimalChess_MarkupCompile.lref
 D:\Software\My_Software\AnimalChess\AnimalChess\obj\Debug\MainWindow.baml

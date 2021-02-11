@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:AnimalChess" mc:Ignorable="d"
-        Title="Cờ thú" Height="620" Width="480" WindowStartupLocation="CenterScreen"
-        WindowStyle="SingleBorderWindow" WindowState="Normal" Loaded="Window_Loaded">
+        xmlns:local="clr-namespace:AnimalChess" mc:Ignorable="d" Name="thisMain"
+        Title="Cờ thú" Height="620" Width="500" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" WindowState="Normal" Loaded="Window_Loaded"
+        MouseLeftButtonDown="DragMove_MouseLeftButtonDown" ResizeMode="NoResize">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Resources/Images/background.jpg" x:Name="bgGrid"
@@ -18,8 +19,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Menu IsMainMenu="True" Height="20">
+        <DockPanel Grid.Row="0" Width="{Binding ElementName=thisMain, Path=ActualWidth}">
+            <Menu IsMainMenu="True" Height="20" HorizontalAlignment="Left">
                 <MenuItem Header="Game" Height="20" Style="{StaticResource MenuItemHeader}" Margin="3 0 0 0">
                     <MenuItem Header="New game" InputGestureText="Ctrl+N" Style="{StaticResource MenuItemSub}"
                               Icon="{materialDesign:PackIcon Kind=NewBox}" Click="NewGame_Click"/>
@@ -51,7 +52,19 @@
 
                 <MenuItem Header="Help" Height="20" Style="{StaticResource MenuItemHeader}" Click="Help_Click"/>
             </Menu>
-        </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 0 0">
+                <Image Source="/Resources/Images/Controls/close.png" PreviewMouseDown="Close_PreviewMouseDown"
+                       Style="{StaticResource imgWindowsStyle}"/>
+                
+                <Image Name="imgChangeStyle" Source="/Resources/Images/Controls/maximize.png"
+                       Style="{StaticResource imgWindowsStyle}" PreviewMouseDown="ChangeStyle_PreviewMouseDown"/>
+                
+                <Image Source="/Resources/Images/Controls/minimize.png"
+                       Style="{StaticResource imgWindowsStyle}" PreviewMouseDown="Minimize_PreviewMouseDown"/>
+                
+            </StackPanel>
+        </DockPanel>
 
         <Grid Grid.Row="1">
             <Frame Name="frameLoad" NavigationUIVisibility="Hidden"/>
