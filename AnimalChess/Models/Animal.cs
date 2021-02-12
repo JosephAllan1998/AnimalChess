@@ -7,44 +7,11 @@ using System.Threading.Tasks;
 
 namespace AnimalChess.Models
 {
-    public class Position : INotifyPropertyChanged
-    {
-        private int _column, _row;
-        public int Column
-        {
-            get => _column;
-            set
-            {
-                _column = value;
-                NotifyPropertyChanged("Column");
-            }
-        }
-
-        public int Row
-        {
-            get => _row;
-            set
-            {
-                _row = value;
-                NotifyPropertyChanged("Row");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void NotifyPropertyChanged(string propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
     public class Animal : INotifyPropertyChanged//, IDisposable
     {
         private Level _cur_lv, _temp_lv;
         private string _name, _imageName, _animalSound;
-        private Position _position;
-        private Player _player;
+        private Team _player;
         private Swim _swim;
         public Level Cur_LV
         {
@@ -64,7 +31,7 @@ namespace AnimalChess.Models
                 NotifyPropertyChanged("Temp_LV");
             }
         }
-        public Player Player
+        public Team Team
         {
             get => _player;
             set
@@ -109,15 +76,6 @@ namespace AnimalChess.Models
                 NotifyPropertyChanged("AnimalSound");
             }
         }
-        public Position Position
-        {
-            get => _position;
-            set
-            {
-                _position = value;
-                NotifyPropertyChanged("Position");
-            }
-        }
         public Animal()
         {
             //Temp_LV = Level.Dangerous;
@@ -125,8 +83,7 @@ namespace AnimalChess.Models
             Name = "Animal";
             ImageName = "*.png";
             AnimalSound = "*.wav";
-            Position = new Position { Column = -1, Row = -1 };
-            Player = Player.Blue;
+            Team = Team.Blue;
             Swim = Swim.NotAvailable;
         }
 

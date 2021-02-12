@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Common.cs" />
     <Compile Include="Models\ENumClass.cs" />
     <Compile Include="UIPages\BoardPage.xaml.cs">
       <DependentUpon>BoardPage.xaml</DependentUpon>

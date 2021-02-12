@@ -14,7 +14,7 @@
         NotAvailable = 0
     }
 
-    public enum Player
+    public enum Team
     {
         Red = 1,
         Blue = 2
@@ -32,6 +32,15 @@
         Down = 2,
         Left = 3,
         Right = 4
+    }
+
+    public enum Area
+    {
+        Border = 0, Water = 1,
+        SameTeam = 2, LessOrEqualLevel = 3,
+        HigherLevel = 4,
+        Trap = 5, Cave = 6,
+        Available = 7
     }
 
 }
