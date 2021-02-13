@@ -39,8 +39,8 @@
         Border = 0, Water = 1,
         SameTeam = 2, LessOrEqualLevel = 3,
         HigherLevel = 4,
-        Trap = 5, Cave = 6,
-        Available = 7
+        Trap = 5, Blue_Cave = 6,
+        Red_Cave = 7, Available = 8
     }
 
 }

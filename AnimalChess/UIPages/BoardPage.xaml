@@ -34,13 +34,5 @@
             <RowDefinition Height="{Binding ElementName=gridChessBoard, Path=Tag}"/>
             <RowDefinition Height="{Binding ElementName=gridChessBoard, Path=Tag}"/>
         </Grid.RowDefinitions>
-
-        <!--<Canvas Grid.Row="0" Grid.Column="0">
-            <Image Source="/Resources/Images/Other/jungle.ico" RenderOptions.BitmapScalingMode="HighQuality"
-                       Width="{Binding ElementName=gridChessBoard, Path=Tag}" Canvas.Top="0" Canvas.Left="0"/>
-
-            <Image Source="/Resources/Images/Animals/cat.png" RenderOptions.BitmapScalingMode="HighQuality"
-                       Width="{Binding ElementName=gridChessBoard, Path=Tag}" Canvas.Top="0" Canvas.Left="0"/>
-        </Canvas>-->
     </Grid>
 </Page>

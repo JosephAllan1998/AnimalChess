@@ -116,34 +116,62 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\Images\Controls\down_blue.png" />
-    <Resource Include="Resources\Images\Controls\down_gradient.png" />
-    <Resource Include="Resources\Images\Controls\left_blue.png" />
-    <Resource Include="Resources\Images\Controls\left_gradient.png" />
-    <Resource Include="Resources\Images\Controls\right_blue.png" />
-    <Resource Include="Resources\Images\Controls\right_gradient.png" />
-    <Resource Include="Resources\Images\Controls\up_blue.png" />
-    <Resource Include="Resources\Images\Controls\up_gradient.png" />
+    <Resource Include="Resources\Images\Others\grass.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Resources\Images\Controls\close.png" />
     <Resource Include="Resources\Images\Controls\maximize.png" />
     <Resource Include="Resources\Images\Controls\minimize.png" />
     <Resource Include="Resources\Images\Controls\restore.png" />
-    <Resource Include="Resources\Images\Others\jungle.png" />
     <Resource Include="Resources\Images\background.jpg" />
     <Resource Include="Resources\Images\Others\cave.png" />
     <Resource Include="Resources\Images\Others\trap.png" />
     <Resource Include="Resources\Images\Others\jungle.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Directions\blue_down.png" />
+    <Resource Include="Resources\Images\Directions\blue_left.png" />
+    <Resource Include="Resources\Images\Directions\blue_right.png" />
+    <Resource Include="Resources\Images\Directions\blue_up.png" />
+    <Resource Include="Resources\Images\Directions\red_down.png" />
+    <Resource Include="Resources\Images\Directions\red_left.png" />
+    <Resource Include="Resources\Images\Directions\red_right.png" />
+    <Resource Include="Resources\Images\Directions\red_up.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Resources\Images\Others\water.png" />
-    <Resource Include="Resources\Images\Animals\rat.png" />
-    <Resource Include="Resources\Images\Animals\cat.png" />
-    <Resource Include="Resources\Images\Animals\dog.png" />
-    <Resource Include="Resources\Images\Animals\elephant.png" />
-    <Resource Include="Resources\Images\Animals\leopard.png" />
-    <Resource Include="Resources\Images\Animals\lion.png" />
-    <Resource Include="Resources\Images\Animals\tiger.png" />
-    <Resource Include="Resources\Images\Animals\wolf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Animals\blue_cat.png" />
+    <Resource Include="Resources\Images\Animals\blue_dog.png" />
+    <Resource Include="Resources\Images\Animals\blue_elephant.png" />
+    <Resource Include="Resources\Images\Animals\blue_leopard.png" />
+    <Resource Include="Resources\Images\Animals\blue_lion.png" />
+    <Resource Include="Resources\Images\Animals\blue_rat.png" />
+    <Resource Include="Resources\Images\Animals\blue_tiger.png" />
+    <Resource Include="Resources\Images\Animals\blue_wolf.png" />
+    <Resource Include="Resources\Images\Animals\red_cat.png" />
+    <Resource Include="Resources\Images\Animals\red_dog.png" />
+    <Resource Include="Resources\Images\Animals\red_elephant.png" />
+    <Resource Include="Resources\Images\Animals\red_leopard.png" />
+    <Resource Include="Resources\Images\Animals\red_lion.png" />
+    <Resource Include="Resources\Images\Animals\red_rat.png" />
+    <Resource Include="Resources\Images\Animals\red_tiger.png" />
+    <Resource Include="Resources\Images\Animals\red_wolf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Others\wood.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Animals\select_cat.png" />
+    <Resource Include="Resources\Images\Animals\select_dog.png" />
+    <Resource Include="Resources\Images\Animals\select_elephant.png" />
+    <Resource Include="Resources\Images\Animals\select_leopard.png" />
+    <Resource Include="Resources\Images\Animals\select_lion.png" />
+    <Resource Include="Resources\Images\Animals\select_rat.png" />
+    <Resource Include="Resources\Images\Animals\select_tiger.png" />
+    <Resource Include="Resources\Images\Animals\select_wolf.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />
