@@ -20,15 +20,13 @@ namespace AnimalChess.UIPages
     public partial class BoardPage : Page, IDisposable
     {
         public MainWindow mainWindow { get; set; }
-        public List<Animal> animals = new List<Animal>();
+        public List<Animal> RedAnimals = new List<Animal>();
+        public List<Animal> BlueAnimals = new List<Animal>();
         public static Image SelectedAnimal;
-        public Team round { get; set; } = Team.Blue;
+        public Team Round { get; set; } = Team.Blue;
         public int rows { get; set; }
         public int columns { get; set; }
 
-        private static string resourceAnimals, resourceDirections;
-        private static string resourceOthers, pathAudio;
-        private static string exe = AppDomain.CurrentDomain.BaseDirectory;
         public BoardPage()
         {
             InitializeComponent();
@@ -38,17 +36,22 @@ namespace AnimalChess.UIPages
             InitializeComponent();
 
             mainWindow = _mainWindow;
-
-            string bgResource = mainWindow.bgGrid.ImageSource.ToString();
-            string resourcePath = bgResource.Substring(0, bgResource.LastIndexOf('/'));
-            resourceAnimals = resourcePath + "/Animals/";
-            resourceDirections = resourcePath + "/Directions/";
-            resourceOthers = resourcePath + "/Others/";
-
-            pathAudio = Path.Combine(exe, "Audios");
-
             UILoadBoard();
             UILoadAnimal();
+        }
+
+        public void ReloadLastSave(List<MyProcess> myProcesses)
+        {
+            List<Grid> grids = FindVisualChildren<Grid>(gridChessBoard).ToList();
+            foreach (var grid in grids)
+            {
+                int col = Grid.GetColumn(grid);
+                int row = Grid.GetRow(grid);
+                var p = myProcesses.Where(x => x.Row == row && x.Column == col).SingleOrDefault();
+
+                grid.Children.Clear();
+                if(p != null) grid.Children.Add(p.image);
+            }
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -107,20 +110,21 @@ namespace AnimalChess.UIPages
                     image.PreviewMouseDown += Animal_PreviewMouseDown;
 
                     Grid g = image.Parent as Grid;
-                    string animalName = image.Source.ToString().Replace(resourceAnimals, "")
+                    string animalName = image.Source.ToString().Replace(MainWindow.resourceAnimals, "")
                         .Replace(".png", "").Replace("red_", "").Replace("blue_", "");
                     int column = Grid.GetColumn(g);
                     int row = Grid.GetRow(g);
 
                     Animal animal = GetAnimal(animalName, row);
                     image.Tag = animal;
-
-                    animals.Add(animal);
+                    if (animal.Team == Team.Red)
+                        RedAnimals.Add(animal);
+                    else BlueAnimals.Add(animal);
                 }
             }
         }
 
-        private Animal GetAnimal(string animal_name, int row)
+        public Animal GetAnimal(string animal_name, int row)
         {
             Animal a;
             if (animal_name == "elephant") a = new Elephant();
@@ -145,8 +149,8 @@ namespace AnimalChess.UIPages
             var animal = img.Tag as Animal;
 
             //Chặn lượt chơi
-            if (round == Team.Red && animal.Team == Team.Blue) return;
-            else if (round == Team.Blue && animal.Team == Team.Red) return;
+            if (Round == Team.Red && animal.Team == Team.Blue) return;
+            else if (Round == Team.Blue && animal.Team == Team.Red) return;
 
             if (SelectedAnimal != null && SelectedAnimal != img)
             {
@@ -183,6 +187,8 @@ namespace AnimalChess.UIPages
 
         private Area DeterminedArea(Direction d, Grid g, Animal a)
         {
+            if (g == null) return Area.Border;
+
             var image = FindVisualChildren<Image>(g).SingleOrDefault();
             if (image != null)
             {
@@ -196,7 +202,7 @@ namespace AnimalChess.UIPages
                     {
                         if (a.Swim == Swim.Available && a.Cur_LV >= b.Cur_LV)
                             return Area.LessOrEqualLevel;
-                        else return Area.HigherLevel;
+                        else return Area.CannotSwim;
                     }
                     else return Area.Available;
                 }
@@ -234,8 +240,8 @@ namespace AnimalChess.UIPages
 
         private bool IsDirectionAvailable(Direction drt, Grid g, Animal a)
         {
-            int col = Grid.GetColumn(g);
-            int row = Grid.GetRow(g);
+            int cur_col = Grid.GetColumn(g);
+            int cur_row = Grid.GetRow(g);
             Grid tempGrid = new Grid();
             Area area = new Area();
 
@@ -243,43 +249,86 @@ namespace AnimalChess.UIPages
             {
                 case Direction.Up:
                     {
-                        tempGrid = FindGridDirection(col, row - 1);
+                        tempGrid = FindGridDirection(cur_col, cur_row - 1);
                         area = DeterminedArea(Direction.Up, tempGrid, a);
                         break;
                     }
                 case Direction.Down:
                     {
-                        tempGrid = FindGridDirection(col, row + 1);
+                        tempGrid = FindGridDirection(cur_col, cur_row + 1);
                         area = DeterminedArea(Direction.Down, tempGrid, a);
                         break;
                     }
                 case Direction.Left:
                     {
-                        tempGrid = FindGridDirection(col - 1, row);
+                        tempGrid = FindGridDirection(cur_col - 1, cur_row);
                         area = DeterminedArea(Direction.Left, tempGrid, a);
                         break;
                     }
                 case Direction.Right:
                     {
-                        tempGrid = FindGridDirection(col + 1, row);
+                        tempGrid = FindGridDirection(cur_col + 1, cur_row);
                         area = DeterminedArea(Direction.Right, tempGrid, a);
                         break;
                     }
             }
 
-            Kiểm tra hổ và sư tử
-            Thêm hình
-
             if ((a.Team == Team.Blue && area == Area.Blue_Cave)
                 || (a.Team == Team.Red && area == Area.Red_Cave))
                 return false;
 
-            if (area == Area.Border || area == Area.SameTeam || area == Area.HigherLevel
-                || (area == Area.Water && a.Swim != Swim.Available))
+            if (area == Area.Border || area == Area.CannotSwim || area == Area.SameTeam
+                || area == Area.HigherLevel || (area == Area.Water && a.Swim != Swim.Available))
                 return false;
             return true;
         }
+        private bool IsDirectionAvailableJump(Direction drt, Grid g, Animal a)
+        {
+            if (a.Cur_LV != Level.Lion && a.Cur_LV != Level.Tiger)
+                return false;
 
+            int cur_col = Grid.GetColumn(g);
+            int cur_row = Grid.GetRow(g);
+            Grid tempGrid = new Grid();
+            Area area = new Area();
+
+            for (int i = 1; i <= 3; i++)
+            {
+                switch (drt)
+                {
+                    case Direction.Left:
+                        {
+                            tempGrid = FindGridDirection(cur_col - i, cur_row);
+                            area = DeterminedArea(Direction.Left, tempGrid, a);
+                            break;
+                        }
+                    case Direction.Right:
+                        {
+                            tempGrid = FindGridDirection(cur_col + i, cur_row);
+                            area = DeterminedArea(Direction.Right, tempGrid, a);
+                            break;
+                        }
+                    default: return false;
+                }
+
+                var image = FindVisualChildren<Image>(tempGrid).SingleOrDefault();
+                if (area == Area.Water || area == Area.CannotSwim)
+                {
+                    if (i != 3 && image != null)
+                        return false;
+                }
+                else if (i == 3 && image != null) // Đến đich có vật cản
+                {
+                    Animal b = image.Tag as Animal;
+                    if (a.Team == b.Team || (a.Team != b.Team && a.Cur_LV < b.Cur_LV))
+                        return false;
+                }
+                else if (i != 3 && (area != Area.Water && area != Area.CannotSwim))
+                    return false;
+
+            }
+            return true;
+        }
         private void AddAvailableDirection(Grid g, Animal a)
         {
             Canvas c = new Canvas();
@@ -295,12 +344,24 @@ namespace AnimalChess.UIPages
                 i = ArrowImage(Direction.Down, tagGrid, 0, a);
                 c.Children.Add(i);
             }
-            if (IsDirectionAvailable(Direction.Left, g, a))
+
+            if (IsDirectionAvailableJump(Direction.Left, g, a))
+            {
+                i = ArrowImage(Direction.Left, 0, -tagGrid * 3, a);
+                c.Children.Add(i);
+            }
+            else if (IsDirectionAvailable(Direction.Left, g, a))
             {
                 i = ArrowImage(Direction.Left, 0, -tagGrid, a);
                 c.Children.Add(i);
             }
-            if (IsDirectionAvailable(Direction.Right, g, a))
+
+            if (IsDirectionAvailableJump(Direction.Right, g, a))
+            {
+                i = ArrowImage(Direction.Right, 0, tagGrid * 3, a);
+                c.Children.Add(i);
+            }
+            else if (IsDirectionAvailable(Direction.Right, g, a))
             {
                 i = ArrowImage(Direction.Right, 0, tagGrid, a);
                 c.Children.Add(i);
@@ -311,7 +372,19 @@ namespace AnimalChess.UIPages
         private void Direction_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             Image i = sender as Image;
-            var animal = i.Tag as Animal;
+            int desPos = int.Parse(i.Tag.ToString());
+            var animal = SelectedAnimal.Tag as Animal;
+
+            if (animal.Team == Team.Blue)
+            {
+                animal = BlueAnimals.Where(x => x == animal).SingleOrDefault();
+                SelectedAnimal.Source = new BitmapImage(new Uri(SelectedAnimal.Source.ToString().Replace("select", "blue")));
+            }
+            else
+            {
+                animal = RedAnimals.Where(x => x == animal).SingleOrDefault();
+                SelectedAnimal.Source = new BitmapImage(new Uri(SelectedAnimal.Source.ToString().Replace("select", "red")));
+            }
 
             string direction = i.Name;
             Canvas canvasDirection = i.Parent as Canvas;
@@ -319,35 +392,44 @@ namespace AnimalChess.UIPages
             RemoveAvailableDirection(gridSource);
             Grid gridDestination = null;
             int cur_column = Grid.GetColumn(gridSource);
-            int cur_row = Grid.GetRow(gridSource); ;
+            int cur_row = Grid.GetRow(gridSource);
+
+            History history = new History
+            {
+                ColumnSource = cur_column,
+                RowSource = cur_row,
+                Round = Round
+            };
 
             switch (direction)
             {
                 case "up":
                     {
-                        gridDestination = FindGridDirection(cur_column, cur_row - 1);
+                        gridDestination = FindGridDirection(cur_column, cur_row - desPos);
                         break;
                     }
                 case "down":
                     {
-                        gridDestination = FindGridDirection(cur_column, cur_row + 1);
+                        gridDestination = FindGridDirection(cur_column, cur_row + desPos);
                         break;
                     }
                 case "left":
                     {
-                        gridDestination = FindGridDirection(cur_column - 1, cur_row);
+                        gridDestination = FindGridDirection(cur_column - desPos, cur_row);
                         break;
                     }
                 case "right":
                     {
-                        gridDestination = FindGridDirection(cur_column + 1, cur_row);
+                        gridDestination = FindGridDirection(cur_column + desPos, cur_row);
                         break;
                     }
             }
 
+            Image swap_animal;
+            Animal b;
             if (gridDestination != null)
             {
-                Image swap_animal = FindVisualChildren<Image>(gridDestination).SingleOrDefault();
+                swap_animal = FindVisualChildren<Image>(gridDestination).SingleOrDefault();
 
                 #region Responsive Swap
                 if (swap_animal == null)
@@ -360,11 +442,26 @@ namespace AnimalChess.UIPages
                     gridSource.Children.Remove(SelectedAnimal);
                     gridDestination.Children.Remove(swap_animal);
                     gridDestination.Children.Add(SelectedAnimal);
-                }
 
-                if (animal.Team == Team.Blue)
-                    SelectedAnimal.Source = new BitmapImage(new Uri(SelectedAnimal.Source.ToString().Replace("select", "blue")));
-                else SelectedAnimal.Source = new BitmapImage(new Uri(SelectedAnimal.Source.ToString().Replace("select", "red")));
+                    b = swap_animal.Tag as Animal;
+                    if (b.Team == Team.Blue)
+                    {
+                        BlueAnimals.Remove(b);
+                        if (BlueAnimals.Count == 0)
+                        {
+                            WinPopup(Team.Red);
+                        }
+                    }
+                    else
+                    {
+                        RedAnimals.Remove(b);
+                        if (RedAnimals.Count == 0)
+                        {
+                            WinPopup(Team.Blue);
+                        }
+                    }
+
+                }
 
                 if (gridDestination.Tag != null)
                 {
@@ -374,34 +471,59 @@ namespace AnimalChess.UIPages
                     {
                         case "TRAP":
                             {
-                                //if (gridTag == Common.TRAP)
-                                //    animal.Cur_LV = Level.Dangerous;
-                                //else animal.Cur_LV = animal.Temp_LV;
+                                animal.Cur_LV = Level.Dangerous;
                                 break;
                             }
                         case "BLUE_CAVE":
                             {
-                                MessageBox.Show("Đỏ thắng");
+                                WinPopup(Team.Red);
                                 break;
                             }
                         case "RED_CAVE":
                             {
-                                MessageBox.Show("Xanh thắng");
+                                WinPopup(Team.Blue);
                                 break;
                             }
                         default:
+                            animal.Cur_LV = animal.Temp_LV;
                             break;
                     }
                 }
+                else animal.Cur_LV = animal.Temp_LV;
 
                 Panel.SetZIndex(gridSource, 0);
                 Panel.SetZIndex(gridDestination, 0);
+
+                history.Destination = swap_animal;
+                SelectedAnimal.Tag = animal;
+                history.Source = SelectedAnimal;
+
+                MainWindow.stack_undo.Push(history);
+                mainWindow.miUndo.IsEnabled = true;
                 #endregion
             }
 
-            if (round == Team.Blue)
-                round = Team.Red;
-            else round = Team.Blue;
+            if (Round == Team.Blue)
+                Round = Team.Red;
+            else Round = Team.Blue;
+        }
+
+        private void WinPopup(Team team)
+        {
+            this.IsHitTestVisible = false;
+            string caption = $"VICTORY";
+            string message = team == Team.Blue ? $"Blue Win\n" : $"Red Win\n";
+            message += $"Do you want to replay ?";
+            MessageBoxButton boxButton = MessageBoxButton.YesNo;
+            MessageBoxImage boxImage = MessageBoxImage.Question;
+            MessageBoxResult boxResult = MessageBoxResult.Yes;
+
+            var ask = MessageBox.Show(message, caption, boxButton, boxImage, boxResult);
+            if(ask == MessageBoxResult.Yes)
+            {
+                mainWindow.frameLoad.NavigationService.RemoveBackEntry();
+                mainWindow.frameLoad.Navigate(new BoardPage(mainWindow));
+            }
         }
 
         private void RemoveAvailableDirection(Grid grid)
@@ -409,16 +531,6 @@ namespace AnimalChess.UIPages
             Canvas canvas = FindVisualChildren<Canvas>(grid).SingleOrDefault();
             if (canvas == null) return;
             else grid.Children.Remove(canvas);
-            //List<Image> images = FindVisualChildren<Image>(canvas).ToList();
-
-            //foreach (var image in images)
-            //{
-            //    string name = image.Name;
-            //    if (name.Contains("up") || name.Contains("down") || name.Contains("left") || name.Contains("right"))
-            //    {
-            //        grid.Children.Remove(image);
-            //    }
-            //}
         }
 
         private void PlaySoundAnimal(string wavFilename)
@@ -426,16 +538,25 @@ namespace AnimalChess.UIPages
             try
             {
                 SoundPlayer sound = new SoundPlayer();
-                sound.SoundLocation = Path.Combine(pathAudio, wavFilename);
+                sound.SoundLocation = Path.Combine(MainWindow.pathAudio, wavFilename);
                 sound.Play();
             }
             catch (Exception) { }
         }
 
         #region Element
+        public Image ReloadImage(string source, Animal animal)
+        {
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri(MainWindow.resourceAnimals + source));
+            image.Tag = animal;
+            image.Cursor = Cursors.Hand;
+            image.PreviewMouseDown += Animal_PreviewMouseDown;
+            return image;
+        }
         private Image DeterminedImage(int row, int column)
         {
-            string imgPath = resourceOthers;
+            string imgPath = MainWindow.resourceOthers;
             Image image = new Image();
             if (row == 0 || column == 0 || row == rows - 1 || column == columns - 1)//Vị trí biên
             {
@@ -467,7 +588,7 @@ namespace AnimalChess.UIPages
                         {
                             if ((row >= 1 && row <= 3) || (row >= 7 && row <= 9))
                             {
-                                imgPath = resourceAnimals;
+                                imgPath = MainWindow.resourceAnimals;
                                 if (row == 1)
                                 {
                                     if (column == 1) imgPath += "red_lion.png";
@@ -514,7 +635,7 @@ namespace AnimalChess.UIPages
             }
 
             try { image.Source = new BitmapImage(new Uri(imgPath)); }
-            catch (Exception) { image.Source = new BitmapImage(new Uri(resourceOthers + "grass.png")); }
+            catch (Exception) { image.Source = new BitmapImage(new Uri(MainWindow.resourceOthers + "grass.png")); }
 
             return image;
         }
@@ -555,9 +676,13 @@ namespace AnimalChess.UIPages
 
             image.Width = tagGrid;
             image.Height = tagGrid;
-            image.Source = new BitmapImage(new Uri(resourceDirections + FindDirectionArrowName(dir, a)));
-            image.Tag = a;
-            image.Name = image.Source.ToString().Replace(resourceDirections, string.Empty)
+            image.Source = new BitmapImage(new Uri(MainWindow.resourceDirections + FindDirectionArrowName(dir, a)));
+
+            if (Math.Abs(top) == (3 * tagGrid) || Math.Abs(left) == (3 * tagGrid))
+                image.Tag = Common.JUMP;
+            else image.Tag = Common.WALK;
+
+            image.Name = image.Source.ToString().Replace(MainWindow.resourceDirections, string.Empty)
                 .Replace("blue_", string.Empty).Replace("red_", string.Empty).Replace(".png", string.Empty);
 
             Canvas.SetLeft(image, left);
@@ -576,7 +701,7 @@ namespace AnimalChess.UIPages
             string imgSource = image.Source.ToString();
             ImageBrush myBrush = new ImageBrush();
 
-            if (imgSource.Contains(resourceOthers))
+            if (imgSource.Contains(MainWindow.resourceOthers))
             {
                 myBrush.ImageSource = image.Source;
                 grid.Background = myBrush;
@@ -590,7 +715,7 @@ namespace AnimalChess.UIPages
             }
             else
             {
-                myBrush.ImageSource = new BitmapImage(new Uri(resourceOthers + "grass.png"));
+                myBrush.ImageSource = new BitmapImage(new Uri(MainWindow.resourceOthers + "grass.png"));
                 grid.Background = myBrush;
                 grid.Children.Add(image);
             }
@@ -599,38 +724,41 @@ namespace AnimalChess.UIPages
         }
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var canvas = sender as Canvas;
             double tagGrid = double.Parse(gridChessBoard.Tag.ToString());
-            List<Image> l_images = FindVisualChildren<Image>(canvas).ToList();
+            var grid = sender as Grid;
+            var canvas = FindVisualChildren<Canvas>(grid).SingleOrDefault();
+            List<Image> images = FindVisualChildren<Image>(canvas).ToList();
 
-            foreach (var image in l_images)
+            foreach (var image in images)
             {
+                int jump = 1;
+                try { jump = int.Parse(image.Tag.ToString()); }
+                catch (Exception) { jump = 1; }
+
                 string sourceImage = image.Source.ToString();
-                if (sourceImage.Contains(resourceDirections))
+                if (sourceImage.Contains("up"))
                 {
-                    if (sourceImage.Contains("up"))
-                    {
-                        Canvas.SetTop(image, -tagGrid);
-                        Canvas.SetLeft(image, 0);
-                    }
-                    if (sourceImage.Contains("down"))
-                    {
-                        Canvas.SetTop(image, tagGrid);
-                        Canvas.SetLeft(image, 0);
-                    }
-                    if (sourceImage.Contains("left"))
-                    {
-                        Canvas.SetTop(image, 0);
-                        Canvas.SetLeft(image, -tagGrid);
-                    }
-                    if (sourceImage.Contains("right"))
-                    {
-                        Canvas.SetTop(image, 0);
-                        Canvas.SetLeft(image, tagGrid);
-                    }
+
+                    Canvas.SetTop(image, -tagGrid * jump);
+                    Canvas.SetLeft(image, 0);
                 }
-                //image.Width = double.Parse(gridChessBoard.Tag.ToString());
-                //image.Height = double.Parse(gridChessBoard.Tag.ToString());
+                if (sourceImage.Contains("down"))
+                {
+                    Canvas.SetTop(image, tagGrid * jump);
+                    Canvas.SetLeft(image, 0);
+                }
+                if (sourceImage.Contains("left"))
+                {
+                    Canvas.SetTop(image, 0);
+                    Canvas.SetLeft(image, -tagGrid * jump);
+                }
+                if (sourceImage.Contains("right"))
+                {
+                    Canvas.SetTop(image, 0);
+                    Canvas.SetLeft(image, tagGrid * jump);
+                }
+                image.Width = tagGrid;
+                image.Height = tagGrid;
             }
         }
         #endregion

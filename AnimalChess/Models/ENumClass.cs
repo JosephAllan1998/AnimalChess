@@ -38,9 +38,9 @@
     {
         Border = 0, Water = 1,
         SameTeam = 2, LessOrEqualLevel = 3,
-        HigherLevel = 4,
-        Trap = 5, Blue_Cave = 6,
-        Red_Cave = 7, Available = 8
+        HigherLevel = 4, CannotSwim = 5,
+        Trap = 6, Blue_Cave = 7,
+        Red_Cave = 8, Available = 9
     }
 
 }

@@ -8,13 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/images/animals/select_cat.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/images/animals/select_dog.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/images/animals/select_elephant.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/images/animals/select_leopard.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/images/animals/select_lion.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/images/animals/select_rat.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/images/animals/select_tiger.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/images/animals/select_wolf.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/images/controls/gear.png")]
 
 

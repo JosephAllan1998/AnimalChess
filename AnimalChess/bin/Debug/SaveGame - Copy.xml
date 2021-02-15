@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SaveProcess>
+  <Round>Blue</Round>
+  <Animals>
+    <Animal Name="Lion" Team="Red" Level="Lion" ImageName="red_lion.png" Column="1" Row="2" />
+    <Animal Name="Cat" Team="Red" Level="Cat" ImageName="red_cat.png" Column="6" Row="2" />
+    <Animal Name="Wolf" Team="Red" Level="Wolf" ImageName="red_wolf.png" Column="5" Row="3" />
+    <Animal Name="Tiger" Team="Red" Level="Tiger" ImageName="red_tiger.png" Column="7" Row="3" />
+    <Animal Name="Dog" Team="Red" Level="Dog" ImageName="red_dog.png" Column="2" Row="4" />
+    <Animal Name="Rat" Team="Red" Level="Rat" ImageName="red_rat.png" Column="3" Row="4" />
+    <Animal Name="Leopard" Team="Red" Level="Leopard" ImageName="red_leopard.png" Column="4" Row="4" />
+    <Animal Name="Rat" Team="Blue" Level="Rat" ImageName="blue_rat.png" Column="7" Row="4" />
+    <Animal Name="Elephant" Team="Blue" Level="Elephant" ImageName="blue_elephant.png" Column="1" Row="5" />
+    <Animal Name="Wolf" Team="Blue" Level="Wolf" ImageName="blue_wolf.png" Column="4" Row="6" />
+    <Animal Name="Cat" Team="Blue" Level="Cat" ImageName="blue_cat.png" Column="3" Row="7" />
+    <Animal Name="Leopard" Team="Blue" Level="Leopard" ImageName="blue_leopard.png" Column="5" Row="7" />
+    <Animal Name="Dog" Team="Blue" Level="Dog" ImageName="blue_dog.png" Column="6" Row="8" />
+    <Animal Name="Lion" Team="Blue" Level="Lion" ImageName="blue_lion.png" Column="7" Row="8" />
+    <Animal Name="Tiger" Team="Blue" Level="Tiger" ImageName="blue_tiger.png" Column="2" Row="9" />
+  </Animals>
+</SaveProcess>

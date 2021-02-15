@@ -19,5 +19,7 @@ namespace AnimalChess.Models
         public static string RED_CAVE { get; } = "RED_CAVE";
         public static string BLUE_CAVE { get; } = "BLUE_CAVE";
         public static string GRASS { get; } = "GRASS";
+        public static int WALK { get; } = 1;
+        public static int JUMP { get; } = 3;
     }
 }

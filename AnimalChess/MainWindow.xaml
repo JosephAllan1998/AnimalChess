@@ -9,6 +9,7 @@
         WindowStyle="None" WindowState="Normal" Loaded="Window_Loaded"
         MouseLeftButtonDown="DragMove_MouseLeftButtonDown" ResizeMode="NoResize">
     <Grid>
+
         <Grid.Background>
             <ImageBrush ImageSource="/Resources/Images/background.jpg" x:Name="bgGrid"
                         TileMode="Tile" Stretch="Fill" Opacity="0.3"/>
@@ -20,49 +21,95 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" Width="{Binding ElementName=thisMain, Path=ActualWidth}">
-            <Menu IsMainMenu="True" Height="20" HorizontalAlignment="Left">
+            <Menu IsMainMenu="True" Height="20" HorizontalAlignment="Left"  Visibility="Visible" Name="dropDownMenu">
                 <MenuItem Header="Game" Height="20" Style="{StaticResource MenuItemHeader}" Margin="3 0 0 0">
                     <MenuItem Header="New game" InputGestureText="Ctrl+N" Style="{StaticResource MenuItemSub}"
                               Icon="{materialDesign:PackIcon Kind=NewBox}" Click="NewGame_Click"/>
 
+                    <MenuItem Header="Mode" Style="{StaticResource MenuItemSub}"
+                              Icon="{materialDesign:PackIcon Kind=ApplicationSettings}">
+                        <MenuItem Style="{StaticResource MenuItemSub}">
+                            <MenuItem.Template>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <RadioButton GroupName="Mode" Content="   One Player" Margin="0,0,0,5"
+                                                     IsChecked="True" Checked="OnePlayer_Checked" />
+                                        <RadioButton GroupName="Mode" Content="   Two Player"
+                                                     IsChecked="False" Checked="TwoPlayer_Checked"/>
+                                    </StackPanel>
+
+                                </ControlTemplate>
+                            </MenuItem.Template>
+                        </MenuItem>
+                    </MenuItem>
+
+                    <MenuItem Header="Level" Style="{StaticResource MenuItemSub}" IsEnabled="True"
+                              Icon="{materialDesign:PackIcon Kind=CarCoolantLevel}" Name="miLevel">
+                        <MenuItem Style="{StaticResource MenuItemSub}">
+                            <MenuItem.Template>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <RadioButton GroupName="Level" Content="   Easy"
+                                                     IsChecked="True" Checked="Easy_Checked"/>
+                                        <RadioButton GroupName="Level" Content="   Medium" Margin="0,5"
+                                                     IsChecked="False" Checked="Medium_Checked"/>
+                                        <RadioButton GroupName="Level" Content="   Hard"
+                                                     IsChecked="False" Checked="Hard_Checked"/>
+                                    </StackPanel>
+
+                                </ControlTemplate>
+                            </MenuItem.Template>
+                        </MenuItem>
+                    </MenuItem>
+
                     <Separator Background="Black"/>
+
+                    <MenuItem Header="Undo" InputGestureText="Ctrl+Z" Style="{StaticResource MenuItemSub}"
+                              Icon="{materialDesign:PackIcon Kind=Undo}" Click="Undo_Click"
+                              IsEnabled="False" Name="miUndo"/>
+                    
+                    <MenuItem Header="Redo" InputGestureText="Ctrl+Y" Style="{StaticResource MenuItemSub}"
+                              Icon="{materialDesign:PackIcon Kind=Redo}" Click="Redo_Click"
+                              IsEnabled="False" Name="miRedo"/>
+                    
+                    <MenuItem Header="Restart" InputGestureText="Ctrl+R" Style="{StaticResource MenuItemSub}"
+                              Name="miResetGame" Icon="{materialDesign:PackIcon Kind=Power}" ToolTip="Reset game"
+                              Click="ResetGame_Click" IsEnabled="False"/>
+                    
+                    <Separator Background="Black"/>
+                    
+                    <MenuItem Header="Save" InputGestureText="Ctrl+S" Style="{StaticResource MenuItemSub}"
+                              Name="miSaveGame" IsEnabled="False"
+                              Icon="{materialDesign:PackIcon Kind=ContentSave}" Click="SaveGame_Click"/>
 
                     <MenuItem Header="Reload" InputGestureText="Ctrl+L" Style="{StaticResource MenuItemSub}"
                               Icon="{materialDesign:PackIcon Kind=Reload}" ToolTip="Reload last saved" Click="ReloadGame_Click"/>
                     
-                    <MenuItem Header="Restart" InputGestureText="Ctrl+R" Style="{StaticResource MenuItemSub}"
-                              Icon="{materialDesign:PackIcon Kind=Power}" ToolTip="Reset game" Click="ResetGame_Click"/>
-
-                    <MenuItem Header="Save" InputGestureText="Ctrl+S" Style="{StaticResource MenuItemSub}"
-                              Icon="{materialDesign:PackIcon Kind=ContentSave}" Click="SaveGame_Click"/>
-
                     <Separator Background="Black"/>
 
-                    <MenuItem Header="Exit" InputGestureText="Alt+F4" Style="{StaticResource MenuItemSub}"
+                    <MenuItem Header="Quit game" InputGestureText="Alt+F4" Style="{StaticResource MenuItemSub}"
                               Icon="{materialDesign:PackIcon Kind=ExitToApp}" Click="CloseGame_Click"/>
                 </MenuItem>
-
-                <MenuItem Header="Setting" Height="20" Style="{StaticResource MenuItemHeader}" Margin="0 0">
-                    <!--<MenuItem Header="Reload" InputGestureText="Ctrl+L" Style="{StaticResource MenuItemSub}"
-                              Icon="{materialDesign:PackIcon Kind=Reload}" ToolTip="Reload last saved" Click="ReloadGame_Click"/>
-
-                    <Separator Background="Black"/>-->
-
-                </MenuItem>
-
-                <MenuItem Header="Help" Height="20" Style="{StaticResource MenuItemHeader}" Click="Help_Click"/>
+                
+                <MenuItem Header="Help?" Height="20" Style="{StaticResource MenuItemHeader}" Click="Help_Click"/>
             </Menu>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 0 0">
-                <Image Source="/Resources/Images/Controls/close.png" PreviewMouseDown="Close_PreviewMouseDown"
+                <Image Source="/Resources/Images/Controls/collapse.png" PreviewMouseDown="CollapseOrExpand_PreviewMouseDown"
+                       Style="{StaticResource imgWindowsStyle}" ToolTip="Collapse Menu"/>
+
+                <Image Source="/Resources/Images/Controls/gear.png" ToolTip="Setting"
+                       PreviewMouseDown="Setting_PreviewMouseDown" Margin="10,0,20,0"
                        Style="{StaticResource imgWindowsStyle}"/>
-                
-                <Image Name="imgChangeStyle" Source="/Resources/Images/Controls/maximize.png"
-                       Style="{StaticResource imgWindowsStyle}" PreviewMouseDown="ChangeStyle_PreviewMouseDown"/>
-                
+
                 <Image Source="/Resources/Images/Controls/minimize.png"
                        Style="{StaticResource imgWindowsStyle}" PreviewMouseDown="Minimize_PreviewMouseDown"/>
-                
+
+                <Image Source="/Resources/Images/Controls/maximize.png" Style="{StaticResource imgWindowsStyle}"
+                       PreviewMouseDown="ChangeStyle_PreviewMouseDown"/>
+
+                <Image Source="/Resources/Images/Controls/close.png" PreviewMouseDown="Close_PreviewMouseDown"
+                       Style="{StaticResource imgWindowsStyle}"/>
             </StackPanel>
         </DockPanel>
 
