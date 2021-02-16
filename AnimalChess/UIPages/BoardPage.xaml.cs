@@ -429,6 +429,9 @@ namespace AnimalChess.UIPages
             Animal b;
             if (gridDestination != null)
             {
+                history.ColumnDestination = Grid.GetColumn(gridDestination);
+                history.RowDestination = Grid.GetRow(gridDestination);
+
                 swap_animal = FindVisualChildren<Image>(gridDestination).SingleOrDefault();
 
                 #region Responsive Swap

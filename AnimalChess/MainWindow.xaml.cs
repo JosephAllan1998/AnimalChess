@@ -105,43 +105,15 @@ namespace AnimalChess
 
         private void Undo_Click(object sender, RoutedEventArgs e)
         {
-            if (stack_undo.Count == 1)
+            History history = stack_undo.Pop();
+            if (stack_undo.Count == 0)
                 miUndo.IsEnabled = false;
 
-            History history = stack_undo.Pop();
+            board.Round = history.Round;
+
+            history.Round = board.Round == Team.Blue ? Team.Red : Team.Blue;
             stack_redo.Push(history);
             miRedo.IsEnabled = true;
-            board.Round = history.Round;
-
-            Grid grid_source = board.FindVisualChildren<Grid>(board.gridChessBoard)
-                .Where(x => Grid.GetColumn(x) == history.ColumnSource && Grid.GetRow(x) == history.RowSource)
-                .SingleOrDefault();
-
-            Grid grid_destination = board.FindVisualChildren<Grid>(board.gridChessBoard)
-                .Where(x => Grid.GetColumn(x) == history.ColumnDestination && Grid.GetRow(x) == history.RowDestination)
-                .SingleOrDefault();
-
-            grid_source.Children.Clear();
-            grid_destination.Children.Clear();
-
-            //grid_source.Children.Add(history.Source);
-            grid_destination.Children.Add(history.Source);
-            Lỗi ở đây nhé !
-            //Grid.SetColumn(history.Source, history.ColumnSource);
-            //Grid.SetRow(history.Source, history.RowSource);
-
-            if (history.Destination != null)
-                grid_destination.Children.Add(history.Destination);
-        }
-
-        private void Redo_Click(object sender, RoutedEventArgs e)
-        {
-            if (stack_redo.Count == 1)
-                miRedo.IsEnabled = false;
-            History history = stack_redo.Pop();
-            stack_undo.Push(history);
-            miUndo.IsEnabled = true;
-            board.Round = history.Round;
 
             Grid grid_source = board.FindVisualChildren<Grid>(board.gridChessBoard)
                 .Where(x => Grid.GetColumn(x) == history.ColumnSource && Grid.GetRow(x) == history.RowSource)
@@ -156,7 +128,47 @@ namespace AnimalChess
 
             grid_source.Children.Add(history.Source);
             if (history.Destination != null)
+            {
                 grid_destination.Children.Add(history.Destination);
+                Animal b = history.Destination.Tag as Animal;
+                if (b.Team == Team.Blue)
+                    board.BlueAnimals.Add(b);
+                else board.RedAnimals.Add(b);
+            }
+        }
+
+        private void Redo_Click(object sender, RoutedEventArgs e)
+        {
+            History history = stack_redo.Pop();
+            if (stack_redo.Count == 0)
+                miRedo.IsEnabled = false;
+
+            board.Round = history.Round;
+
+            history.Round = board.Round == Team.Blue ? Team.Red : Team.Blue;
+            stack_undo.Push(history);
+            miUndo.IsEnabled = true;
+
+            Grid grid_source = board.FindVisualChildren<Grid>(board.gridChessBoard)
+                .Where(x => Grid.GetColumn(x) == history.ColumnSource && Grid.GetRow(x) == history.RowSource)
+                .SingleOrDefault();
+
+            Grid grid_destination = board.FindVisualChildren<Grid>(board.gridChessBoard)
+                .Where(x => Grid.GetColumn(x) == history.ColumnDestination && Grid.GetRow(x) == history.RowDestination)
+                .SingleOrDefault();
+
+            grid_source.Children.Clear();
+            grid_destination.Children.Clear();
+
+            grid_destination.Children.Add(history.Source);
+            if (history.Destination != null)
+            {
+                grid_source.Children.Add(history.Destination);
+                Animal b = history.Destination.Tag as Animal;
+                if (b.Team == Team.Blue)
+                    board.BlueAnimals.Add(b);
+                else board.RedAnimals.Add(b);
+            }
         }
         private void ResetGame_Click(object sender, RoutedEventArgs e)
         {
